@@ -1,6 +1,6 @@
 // this file defines 2 arrays for you
 
-var fruits = [
+var correctFruits = [
   'Apple',
   'Apricot',
   'Banana',
@@ -55,7 +55,7 @@ var fruits = [
   'Ugli fruit'
 ];
 
-var vegetables = [
+var correctVegetables = [
   'Artichoke',
   'Arugula',
   'Asparagus',

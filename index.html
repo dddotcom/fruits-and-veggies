@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="sorter">
     <head>
         <title>Fruit and Veggies</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
@@ -7,22 +7,69 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
         <script src="js/fruits_and_veggies_test.js"></script>
+        <script src="js/fruits_and_veggies.js"></script>
         <script src="js/app.js"></script>
     </head>
-    <body>
+    <body ng-controller="SortCtrl">
         <div class="container">
             <h1>Fruit and Veggies</h1>
             <div class="row">
                 <div class="col-sm-4">
-                    col 1
+                  <h2>Fruits</h2>
+                  <div class="row" ng-repeat="food in sortedFruits track by $index">
+                    <div class="well">
+                      <div class="row">
+                        <div class="col-xs-10 text-center" ng-class="{'text-danger': wrongFruits.includes(food)}">
+                          {{ food }}
+                        </div>
+                        <div class="col-xs-2">
+                          <button class="btn" ng-click="moveBackUnsortedFruit()" ng-class="{'btn-primary': !wrongFruits.includes(food), 'btn-danger': wrongFruits.includes(food)}">
+                            <span class="glyphicon glyphicon-arrow-right"></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-sm-4">
-                    col 2
+                  <h2>Pool</h2>
+                    <div class="row" ng-repeat="food in unsorted track by $index">
+                      <div class="well">
+                        <div class="row">
+                          <div class="col-xs-2">
+                            <button class="btn btn-primary" ng-click="moveFruit()">
+                              <span class="glyphicon glyphicon-arrow-left"></span>
+                            </button>
+                          </div>
+                          <div class="col-xs-8 text-center">
+                            {{ food }}
+                          </div>
+                          <div class="col-xs-2" ng-click="moveVeggie()">
+                            <button class="btn btn-primary"><span class="glyphicon glyphicon-arrow-right"></span></button>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
                 </div>
                 <div class="col-sm-4">
-                    col 3
+                  <h2>Veggies</h2>
+                  <div class="row" ng-repeat="food in sortedVeggies track by $index">
+                    <div class="well">
+                      <div class="row">
+                        <div class="col-xs-2">
+                          <button class="btn" ng-click="moveBackUnsortedVeggie()" ng-class="{'btn-primary': !wrongVeggies.includes(food), 'btn-danger': wrongVeggies.includes(food)}">
+                            <span class="glyphicon glyphicon-arrow-left"></span>
+                          </button>
+                        </div>
+                        <div class="col-xs-10 text-center" ng-class="{'text-danger': wrongVeggies.includes(food)}">
+                          {{ food }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
+            <h2 ng-if="win" class="text-success text-center">You Nguyen! You are a Fruit and Vegetable Master!</h2>
         </div>
     </body>
 </html>
