@@ -22,6 +22,12 @@ Array.prototype.shuffle = function() {
    return input;
 };
 
+function isAlphabetized(arr){
+  var alphabetizedArray = arr.slice();
+  alphabetizedArray.sort();
+  return arr.toString() === alphabetizedArray.toString();
+}
+
 /* setup your angular app here */
 var app = angular.module("sorter", []);
 
@@ -34,6 +40,7 @@ app.controller("SortCtrl", ["$scope", function($scope){
   $scope.wrongFruits =[];
   $scope.wrongVeggies = [];
   $scope.win = false;
+  $scope.sorted = false;
 
   $scope.moveFruit = function(){
     $scope.sortedFruits.push($scope.unsorted[this.$index]);
@@ -48,7 +55,6 @@ app.controller("SortCtrl", ["$scope", function($scope){
   };
 
   $scope.moveBackUnsortedFruit = function(){
-    console.log(this.food);
     if($scope.wrongFruits.includes(this.food)){
         $scope.wrongFruits.remove(this.food);
     }
@@ -70,23 +76,42 @@ app.controller("SortCtrl", ["$scope", function($scope){
   $scope.checkSort = function(){
     if(!$scope.unsorted.length){
       $scope.sortedFruits.forEach(function(fruit){
-        if(!correctFruits.includes(fruit)){
+        if(!fruits.includes(fruit)){
           console.log(fruit, "at index", $scope.sortedFruits.indexOf(fruit), "is actually a vegetable");
           $scope.wrongFruits.push(fruit);
         }
       });
       $scope.sortedVeggies.forEach(function(veggie){
-        if(!correctVegetables.includes(veggie)){
+        if(!vegetables.includes(veggie)){
           console.log(veggie, "at index", $scope.sortedVeggies.indexOf(veggie), "is actually a fruit");
           $scope.wrongVeggies.push(veggie);
         }
       });
 
       if(!$scope.wrongFruits.length && !$scope.wrongVeggies.length){
-        $scope.win = true;
+        $scope.sorted = true;
+        if(isAlphabetized($scope.sortedFruits) && isAlphabetized($scope.sortedVeggies)){
+          $scope.win = true;
+        }
       }
     }
   };
 
+  $scope.up = function(arr){
+    if(this.$index !== 0){
+      var temp = arr[this.$index -1];
+      arr[this.$index -1] = arr[this.$index];
+      arr[this.$index] = temp;
+    }
+    $scope.checkSort();
+  };
 
+  $scope.down = function(arr){
+    if(this.$index !== arr.length-1){
+      var temp = arr[this.$index +1];
+      arr[this.$index+1] = arr[this.$index];
+      arr[this.$index] = temp;
+    }
+    $scope.checkSort();
+  };
 }]);

@@ -1,1 +1,4 @@
 /* file for your css */
+.well {
+  min-height: 83px;
+}
